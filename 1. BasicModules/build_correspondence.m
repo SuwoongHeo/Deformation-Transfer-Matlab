@@ -40,10 +40,6 @@ end
 S_tree = kd_tree(VS_C);
 T_tree = kd_tree(VT_C);
 
-% corres1 = zeros(maxcorreslength , maxind);
-% corres1 = zeros(length(FS), maxind);
-% corres2 = zeros(length(FS), maxind);
-
 corres1 = zeros(length(FT), maxind);
 corres2 = zeros(length(FT), maxind);
 templength = 0;
@@ -64,15 +60,8 @@ for i=1:size(FS,1)
             templength = max([rowlen+1 length(corres2(corres2(corresind(j),:)>0))]);
             rowlen = length(corres2(corres2(corresind(j),:)>0));
             corres2(corresind(j), rowlen+1) = i;
-%             corres2(corresind(1:len), 1) = [corres2(corresind(1:len), 1) i];
         end
     end
-%     corresind = kd_query(T_tree, VS_C(i,:), thres, maxind);   
-%     corresind = corresind(corresind>0);
-%     templength = max([len length(corresind)]);
-%     len = length(corresind);
-%     corresind(sum(repmat(NS(i,:), [length(NT(corresind,:)) 1]).*NT(corresind,:),2)>=pi/2) = 0;
-%     corres1(i, 1:len) = corresind(1:len);
     
     if ~mod(i, 10000)
         msg = sprintf('Processed %d/%d', i, size(FS,1));
@@ -81,15 +70,10 @@ for i=1:size(FS,1)
     end
 end
 corres2 = corres2(:, 1:templength);
-% corres1 = corres1(:, 1:templength);
-% clear VS_C;
-% toc
-% fprintf('\n');
 
 reverseStr = [];
 fprintf('Target to Source correspondence..\n');
-% tic
-% rowlen = -1;
+
 for i=1:size(FT,1)
     corresind = kd_query(S_tree, VT_C(i,:), thres, maxind);
     corresind = corresind(corresind>0);
@@ -97,18 +81,7 @@ for i=1:size(FT,1)
     len = length(corresind);
     corresind(sum(repmat(NT(i,:), [size(NS(corresind,:),1) 1]).*NS(corresind,:),2)>=pi/2) = 0;
     corres1(i, 1:len) = corresind(1:len);
-%     corresind = kd_query(S_tree, VT_C(i,:), thres, maxind);   
-%     corresind = corresind(corresind>0);
-%     len = length(corresind);
-%     corresind(sum(repmat(NT(i,:), [size(NS(corresind,:),1) 1]).*NS(corresind,:),2)>=pi/2) = 0;
-% 
-%     if ~isempty(corresind)
-%         for j = 1:len
-%             templength = max([rowlen+1 length(corres2(corres2(corresind(j),:)>0))]);
-%             rowlen = length(corres2(corres2(corresind(j),:)>0));
-%             corres2(corresind(j), rowlen+1) = i;
-%         end
-%     end
+
     if ~mod(i, 10000)
         msg = sprintf('Processed %d/%d', i, size(FT,1));
         fprintf([reverseStr, msg]);
@@ -116,17 +89,10 @@ for i=1:size(FT,1)
     end
 end
 corres1 = corres1(:, 1:templength);
-% corres2 = corres2(:, 1:templength);
 fprintf('\n');
-% toc
-% fprintf('\n');
 
 tempcorres = [corres1 corres2];
-% corres = cell(size(FS,1),1);
-% for i=1:size(FS,1)
-%     temp = unique(tempcorres(i,:));
-%     corres{i} = temp(temp>0);
-% end
+
 corres = cell(size(FT,1),1);
 for i=1:size(FT,1)
     temp = unique(tempcorres(i,:));

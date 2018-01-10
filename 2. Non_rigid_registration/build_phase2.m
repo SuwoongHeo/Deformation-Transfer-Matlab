@@ -1,4 +1,4 @@
-function [ M_P2 C_P2 ] = build_phase2( VS, FS, NS, VT, VTN, T_tree, marker, wc )
+function [ M_P2 C_P2 ] = build_phase2( VS, FS, NS, VT, VTN, marker, wc )
 %Build phase 2 sparse matrix M_P2 ( Closest Valid Point term) with # of
 %source vertices (nS), triangles (mS), target vertices(nT)
 %   Input
@@ -40,19 +40,6 @@ fprintf('\n')
 M_P2 = sparse((1:3*S_size)', (1:3*S_size)', repmat(wc, [3*S_size 1]), 3*S_size, 3*(length(VS)+length(FS)));
 
 end
-
-
-% function [ valid ] = find_closest_validpt(T_tree, spt, snormal, VTN)    
-%     while(1)
-%         [idx tpt] = kd_query(T_tree, spt);
-%         if acos(snormal * VTN(idx,:)') < pi/2
-%             valid = idx;
-%             break;
-%         else
-%             T_tree = kd_delete(T_tree, tpt);
-%         end
-%     end       
-% end
 
 function [ valid ] = find_closest_validpt(spt, snormal, vpts, VTN)    
     d = sum((repmat(spt, [size(vpts,1), 1]) - vpts).^2,2);
