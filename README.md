@@ -1,4 +1,4 @@
-# Deformation Trnasfer Matlab
+# Deformation Transfer Matlab
 The matlab implementation of Deformation transfer[1]. I had implemented this code by referring the c++ implementation code[2]. In order to run this code, please download the mesh data which can be found in project website[3]. If you have any question, please contact vereurer@gmail.com
 
 - If you have problem with using parallel for loop(parfor), run below code in commandline
