@@ -20,5 +20,6 @@ write_obj_file(x, FT, nx, 'head-09-surprise.obj');
 
 fprintf('End of demo..\n');
 system('pause');
+test1 = 1;
 
 clear VS VT S_factor T_factor FS FT NS NT maker;
